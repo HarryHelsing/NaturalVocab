@@ -1,0 +1,78 @@
+=================================
+    Welcome to NaturalVocab
+=================================
+
+This app is designed to help you
+learn vocabulary in any language
+in a natural and interesting way.
+
+You upload content which you find
+interesting and engaging, so that
+you learn the words in context,
+in a way that you personally
+connect with.
+
+More than this, though the app
+primarily tracks the amount of
+words you've become comfortable
+with, it is deisgned in such a
+way that over time the grammar
+of the language in naturally
+aquired.
+
+The app is made to be structured,
+without being inflexible. It
+track your progress in a gentle,
+self defined way.
+
+
+- Continue (press enter to continue)
+
+:Reads folder names as a way to give the language options? Not sure
+::First off it reads folders within the languages folder to give options.
+:: Then New allows you to make a new folder, converting it to lower case
+:: Edit allows you to edit a language name, also converts to lower case
+:::Prints off language names next to numbers (1), (2), etc, to select which one you wish to use.
+
+Choose your language or type new and press enter to create a new one
+- (1) Italian:
+- (2) English:
+- (3) Spanish:
+- (N) New: Go to language creation mode
+- (E) Edit: Rename a language
+
+New: Type language name, then it creates a new folder with the language name and stores the variable. It then returns to language select.
+
+Edit: Choose language name, it renames the folderas long as there are no conflicts in folder name.
+
+- Select a language
+
+
+=================================
+    Mode Select for {Language}
+=================================
+
+Here you navigate between a few
+simple modes.
+
+Type the letter and press enter
+to select that mode.
+
+(U) Upload Mode:
+Allows you to upload text of your
+choosing. Perhaps poems, blogs,
+mini stories, information,
+excerpts from books. Anything
+that interests you.
+
+(R) Review Mode:
+Allows you to review words in
+context to help you learn them
+naturally, in a way that is
+interesting and relevant to you.
+
+(O) Overview Mode:
+Allows you to look at your
+progress and see how many words
+you've reviewed and become
+comfortable with.
