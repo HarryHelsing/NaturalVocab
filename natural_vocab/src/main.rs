@@ -39,15 +39,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     written_input = get_input();
 
-let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
-let mut word_hashmap = HashMap::<String, Word>::new(); 
-
+    let mut word_hashmap = HashMap::<String, Word>::new(); 
     word_hashmap = deserialise_word_hash();
 
     //Temporary test value for the logic
-let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
-
-word_hashmap = regex_word_finder(&re, word_hashmap, text);
+    let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
+    let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
+    word_hashmap = regex_word_finder(&re, word_hashmap, text);
 
         //Temporary checker for hashmap
     for key in word_hashmap.keys() {
@@ -195,30 +193,12 @@ fn print_mode_select() {
 
 /*
     //----- junk code----v
-    let texts: Vec<Text> = match
-        fs::read_to_string("languages/italian/texts.ron") {
-            Ok(content) => {
-                match from_str(&content)
-                {
-            Ok(texts) => texts,
-            Err(_) => {
-                Vec::new()
-                }
-        }
-},
-    Err(_) => {   Vec::new()
-    }
-};
-
 let new_text = Text {
     title: "Title of note".to_string(),
     body: "Here is the body of the note".to_string(),
     comments: "Comments here".to_string(),
     //In future put in tags, links, hashmap links, and flags fields
 };
-
-let mut updated_texts = texts;
-updated_texts.push(new_text);
 
 println!("Current texts:\n{:#?}", updated_texts);
 
