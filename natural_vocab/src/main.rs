@@ -48,6 +48,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .expect("Failed to read line");
 
 let mut word_hashmap = HashMap::<String, Word>::new(); 
+    word_hashmap = deserialise_word_hash();
+    //deserialise the hashmap
 let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
 let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
 for cap in re.captures_iter(text) {
@@ -55,14 +57,41 @@ for cap in re.captures_iter(text) {
     word_hashmap.entry(captured_word.to_string())
         .or_insert(Word {word: captured_word.to_string(),});
     //make sure this isn't creating duplicates
+    //- Serialise the hashmap
 
-    if word_hashmap.contains_key(captured_word){
-println!("Boop {captured_word}");
-    }
 }
 
+    for key in word_hashmap.keys() {
+        println!("Key: {}", key);
+    }
+    serialise_word_hash(&word_hashmap);//add string, word?
     Ok(())
     }
+
+fn deserialise_word_hash()-> HashMap::<String, Word> {
+    let hashmap: HashMap::<String, Word> = match
+        fs::read_to_string("languages/italian/word_list.ron") {
+            Ok(content) => {
+                match from_str(&content)
+                {
+            Ok(hashmap) => hashmap,
+            Err(_) => {   HashMap::<String, Word>::new()
+                }
+        }
+},
+    Err(_) => {   HashMap::<String, Word>::new()
+    }
+};
+hashmap
+}
+
+fn serialise_word_hash(word_hash:&HashMap::<String, Word>) -> Result<(), Box<dyn std::error::Error>> {
+let ron_string = to_string(word_hash)?;
+    fs::write("languages/italian/word_list.ron", ron_string)?;
+
+    Ok(())
+}
+
 
 // Print functions
 fn print_welcome_1() {
