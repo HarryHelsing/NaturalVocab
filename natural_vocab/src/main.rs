@@ -7,9 +7,20 @@ use std::collections::HashMap;
 use regex::Regex;
 
 #[derive(Serialize, Deserialize, Debug)]
+    enum FamiliarityLevel  {
+        NotReviewed,
+        Unfamiliar,
+        Somewhat,
+        Familiar,
+    }
+
+#[derive(Serialize, Deserialize, Debug)]
     struct Word {
         word: String,
-    }
+        comments: String,
+        familiarity: FamiliarityLevel,
+        text_links: Vec<i32>,
+    }//Links to texts: Vec of hashs?, familiarity level: int?, comments: string
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -21,31 +32,23 @@ use regex::Regex;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
 
-    print_welcome_1();
-
     let mut written_input = String::new();
-
-    written_input = get_input();
-
+    print_welcome_1();
+        written_input = get_input();
     print_welcome_2();
-
-    written_input = get_input();
-
+        written_input = get_input();
     print_lang_select();
-
-    written_input = get_input();
-
+        written_input = get_input();
     print_mode_select();
-
-    written_input = get_input();
+        written_input = get_input();
 
     let mut word_hashmap = HashMap::<String, Word>::new(); 
-    word_hashmap = deserialise_word_hash();
+        word_hashmap = deserialise_word_hash();
 
     //Temporary test value for the logic
     let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
-    word_hashmap = regex_word_finder(&re, word_hashmap, text);
+        word_hashmap = regex_word_finder(&re, word_hashmap, text);
 
         //Temporary checker for hashmap
     for key in word_hashmap.keys() {
