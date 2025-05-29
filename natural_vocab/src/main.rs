@@ -47,19 +47,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .read_line(&mut written_input)
         .expect("Failed to read line");
 
+let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
 let mut word_hashmap = HashMap::<String, Word>::new(); 
     word_hashmap = deserialise_word_hash();
-    //deserialise the hashmap
-let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
-let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
-for cap in re.captures_iter(text) {
-    let captured_word =  &cap[1].to_lowercase();
-    word_hashmap.entry(captured_word.to_string())
-        .or_insert(Word {word: captured_word.to_string(),});
-    //make sure this isn't creating duplicates
-    //- Serialise the hashmap
 
-}
+let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
+
+word_hashmap = regex_word_finder(&re, word_hashmap, text);
 
     for key in word_hashmap.keys() {
         println!("Key: {}", key);
@@ -67,6 +61,22 @@ for cap in re.captures_iter(text) {
     serialise_word_hash(&word_hashmap);//add string, word?
     Ok(())
     }
+
+fn regex_word_finder(
+    re: &Regex,
+    mut word_hashmap: HashMap<String, Word>,
+    text: &str,
+) -> HashMap<String, Word> {
+    for cap in re.captures_iter(text) {
+        let captured_word = &cap[1].to_lowercase();
+        word_hashmap.entry(captured_word.to_string())
+            .or_insert(Word {
+                word: captured_word.to_string(),
+            });
+    }
+    word_hashmap
+
+}
 
 fn deserialise_word_hash()-> HashMap::<String, Word> {
     let hashmap: HashMap::<String, Word> = match
