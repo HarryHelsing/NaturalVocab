@@ -25,42 +25,46 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut written_input = String::new();
 
-    io::stdin()
-        .read_line(&mut written_input)
-        .expect("Failed to read line");
+    written_input = get_input();
 
     print_welcome_2();
 
-    io::stdin()
-        .read_line(&mut written_input)
-        .expect("Failed to read line");
+    written_input = get_input();
 
     print_lang_select();
 
-    io::stdin()
-        .read_line(&mut written_input)
-        .expect("Failed to read line");
+    written_input = get_input();
 
     print_mode_select();
 
-    io::stdin()
-        .read_line(&mut written_input)
-        .expect("Failed to read line");
+    written_input = get_input();
 
 let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
 let mut word_hashmap = HashMap::<String, Word>::new(); 
+
     word_hashmap = deserialise_word_hash();
 
+    //Temporary test value for the logic
 let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
 
 word_hashmap = regex_word_finder(&re, word_hashmap, text);
 
+        //Temporary checker for hashmap
     for key in word_hashmap.keys() {
         println!("Key: {}", key);
     }
+
     serialise_word_hash(&word_hashmap);//add string, word?
     Ok(())
     }
+
+fn get_input() -> String {
+let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+    input.trim().to_string()
+}
 
 fn regex_word_finder(
     re: &Regex,
