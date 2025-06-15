@@ -170,6 +170,8 @@ fn print_mode_select() {
 ");
 }
 
+//Do I need to feed in arguments for written_input, regex (re), word_hash?
+//Then probably return a bunch of those values
 fn mode_select () {
     println!(
 "Select a Mode
@@ -189,7 +191,7 @@ Type 4 then press enter to Exit\n\n");
         let written_input: i32 = written_input.trim().parse().expect("Please type a number");
         
         match written_input  {
-             1 => println!("One was typed"),
+             1 => mode_add_text(),
              2 => println!("Two was typed"),
              3 => println!("Three was typed"),
              4 => println!("Four was typed"),
