@@ -17,9 +17,9 @@ use regex::Regex;
 #[derive(Serialize, Deserialize, Debug)]
     struct Word {
         word: String,
-        comments: String,
-        familiarity: FamiliarityLevel,
-        text_links: Vec<i32>,
+        //comments: String,
+        //familiarity: FamiliarityLevel,
+        //text_links: Vec<i32>,
     }//Links to texts: Vec of hashs?, familiarity level: int?, comments: string
 
 
@@ -42,19 +42,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     print_mode_select();
         written_input = get_input();
 
+        //Loading in word list from file
     let mut word_hashmap = HashMap::<String, Word>::new(); 
         word_hashmap = deserialise_word_hash();
 
     //Temporary test value for the logic
     let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
+    //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
         word_hashmap = regex_word_finder(&re, word_hashmap, text);
 
         //Temporary checker for hashmap
-    for key in word_hashmap.keys() {
-        println!("Key: {}", key);
+/*    for key in word_hashmap.keys() {
+        println!("Key: {}", key);*/
     }
-
+mode_select();
     serialise_word_hash(&word_hashmap);//add string, word?
     Ok(())
     }
@@ -75,7 +77,7 @@ fn regex_word_finder(
     for cap in re.captures_iter(text) {
         let captured_word = &cap[1].to_lowercase();
         word_hashmap.entry(captured_word.to_string())
-            .or_insert(Word {
+            .or_insert(Word {//fill in extra fields
                 word: captured_word.to_string(),
             });
     }
@@ -168,6 +170,45 @@ fn print_mode_select() {
 ");
 }
 
+fn mode_select () {
+    println!(
+"Select a Mode
+Type 1 then press enter to begin
+Text Upload and Review Mode
+
+Type 2 then press enter to begin
+Word Review and Study Mode
+
+Type 3 then press enter to begin
+Overview Progress Mode
+
+Type 4 then press enter to Exit\n\n");
+
+    let mut written_input = String::new();
+        written_input = get_input();
+        let written_input: i32 = written_input.trim().parse().expect("Please type a number");
+        
+        match written_input  {
+             1 => println!("One was typed"),
+             2 => println!("Two was typed"),
+             3 => println!("Three was typed"),
+             4 => println!("Four was typed"),
+             _ => println!("Something was typed"),
+        }
+//match statement with function calls
+}
+
+fn mode_add_text () {
+
+}
+
+fn mode_review_words () {
+
+}
+
+fn mode_overview () {
+
+}
 /* to-do
  * - Create input logic to take in new text
  * - Reformat into hashmap
