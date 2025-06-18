@@ -6,8 +6,17 @@ use std::io;
 use std::collections::HashMap;
 use regex::Regex;
 
+#[derive(PartialEq)]
+    enum ModeType {
+        Add,
+        Review,
+        Overview,
+        Exit,
+        Unknown,
+    }
+
 #[derive(Serialize, Deserialize, Debug)]
-    enum FamiliarityLevel  {
+    enum FamiliarityLevel {
         NotReviewed,
         Unfamiliar,
         Somewhat,
@@ -39,27 +48,46 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         written_input = get_input();
     print_lang_select();
         written_input = get_input();
-    print_mode_select();
-        written_input = get_input();
 
         //Loading in word list from file
     let mut word_hashmap = HashMap::<String, Word>::new(); 
         word_hashmap = deserialise_word_hash();
 
     //Temporary test value for the logic
-    let text = "Let's imagine this is some text in italian... Café? Does it do multiple lines correctly?";
+    let text = "It's Italian time!";
     //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
         word_hashmap = regex_word_finder(&re, word_hashmap, text);
 
         //Temporary checker for hashmap
-/*    for key in word_hashmap.keys() {
-        println!("Key: {}", key);*/
+    for key in word_hashmap.keys() {
+        println!("Key: {}", key);
+        }
+
+    let mut mode_type = ModeType::Unknown;
+        loop {    
+    print_mode_select();
+        written_input = get_input();
+        let written_input: i32 = written_input.trim().parse().expect("Please type a number");
+        //program crashes if number is not typed
+        
+        //Need to:
+        //Create if statements for each enum type
+        mode_type = match written_input  {
+             1 => ModeType::Add,
+             2 => ModeType::Review,
+             3 => ModeType::Overview,
+             4 => ModeType::Exit,
+             _ => ModeType::Unknown,
+        };
+    if mode_type == ModeType::Exit {break};
+    if mode_type == ModeType::Add {mode_add_text()};
     }
-mode_select();
     serialise_word_hash(&word_hashmap);//add string, word?
     Ok(())
     }
+
+fn mode_add_text() {}
 
 fn get_input() -> String {
 let mut input = String::new();
@@ -167,14 +195,7 @@ fn print_mode_select() {
 =================================
         Mode Selection
 =================================
-");
-}
-
-//Do I need to feed in arguments for written_input, regex (re), word_hash?
-//Then probably return a bunch of those values
-fn mode_select () {
-    println!(
-"Select a Mode
+Select a Mode
 Type 1 then press enter to begin
 Text Upload and Review Mode
 
@@ -184,26 +205,23 @@ Word Review and Study Mode
 Type 3 then press enter to begin
 Overview Progress Mode
 
-Type 4 then press enter to Exit\n\n");
+Type 4 then press enter to Exit\n\n
+");
+}
+/*
+fn mode_add_text (word_hashmap:&mut HashMap::<String, Word>) {
+//Temporary test value for the logic
+    let text = "Pringles?";
+    //put this in it's own function to call when updating text?
+    let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
+        word_hashmap = regex_word_finder(&re, word_hashmap, text);
 
-    let mut written_input = String::new();
-        written_input = get_input();
-        let written_input: i32 = written_input.trim().parse().expect("Please type a number");
-        
-        match written_input  {
-             1 => mode_add_text(),
-             2 => println!("Two was typed"),
-             3 => println!("Three was typed"),
-             4 => println!("Four was typed"),
-             _ => println!("Something was typed"),
+        //Temporary checker for hashmap
+    for key in word_hashmap.keys() {
+        println!("Key: {}", key);
         }
-//match statement with function calls
 }
-
-fn mode_add_text () {
-
-}
-
+*/
 fn mode_review_words () {
 
 }
