@@ -69,3 +69,11 @@ Type 4 then press enter to Exit\n\n
 ");
 }
 
+pub fn print_continue() {
+
+    println!("
+
+    Press enter to continue
+
+    ");
+}

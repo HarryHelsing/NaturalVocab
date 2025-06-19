@@ -60,7 +60,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let text = "It's Italian time!";
     //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
-        word_hashmap = regex_word_finder(&re, word_hashmap, text);
+        regex_word_finder(&re, &mut word_hashmap, text);
 
         //Temporary checker for hashmap
     for key in word_hashmap.keys() {
@@ -71,12 +71,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         loop {    
     print_mode_select();
         written_input = get_input();
-        let written_input: i32 = written_input.trim().parse().expect("Please type a number");
+        let written_output: i32 = written_input.trim().parse().expect("Please type a number");
         //program crashes if number is not typed: add error handling
         
         //Need to:
         //Create if statements for each enum type
-        mode_type = match written_input  {
+        mode_type = match written_output  {
              1 => ModeType::Add,
              2 => ModeType::Review,
              3 => ModeType::Overview,
@@ -84,15 +84,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
              _ => ModeType::Unknown,
         };
     if mode_type == ModeType::Exit {break};
-    if mode_type == ModeType::Add {mode_add_text()};
-    if mode_type == ModeType::Review {mode_review_words()};
+    if mode_type == ModeType::Add {mode_add_text(&re, &mut word_hashmap)};
+    if mode_type == ModeType::Review {mode_review_words(&mut word_hashmap)};
     if mode_type == ModeType::Overview {mode_overview()};
+        print_continue();
+        written_input = get_input();
     }
     serialise_word_hash(&word_hashmap);//add string, word?
     Ok(())
     }
-
-fn mode_add_text() {}//temporary example
 
 fn get_input() -> String {
 let mut input = String::new();
@@ -104,9 +104,10 @@ let mut input = String::new();
 
 fn regex_word_finder(
     re: &Regex,
-    mut word_hashmap: HashMap<String, Word>,
+    word_hashmap: &mut HashMap<String, Word>,
     text: &str,
-) -> HashMap<String, Word> {
+
+){
     for cap in re.captures_iter(text) {
         let captured_word = &cap[1].to_lowercase();
         word_hashmap.entry(captured_word.to_string())
@@ -114,7 +115,6 @@ fn regex_word_finder(
                 word: captured_word.to_string(),
             });
     }
-    word_hashmap
 
 }
 
@@ -144,21 +144,23 @@ let ron_string = to_string(word_hash)?;
 
 
 
-/*
-fn mode_add_text (word_hashmap:&mut HashMap::<String, Word>) {
+fn mode_add_text (re: &Regex,
+        word_hashmap:&mut HashMap<String, Word>) {
 //Temporary test value for the logic
     let text = "Pringles?";
     //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
-        word_hashmap = regex_word_finder(&re, word_hashmap, text);
+        regex_word_finder(&re, word_hashmap, text);
+}
+
+fn mode_review_words (
+word_hashmap:&mut HashMap<String, Word>
+    ) {
 
         //Temporary checker for hashmap
     for key in word_hashmap.keys() {
         println!("Key: {}", key);
         }
-}
-*/
-fn mode_review_words () {
 
 }
 
@@ -168,8 +170,6 @@ fn mode_overview () {
 /* to-do
  * - Create input logic to take in new text
  * - Reformat into hashmap
- * - Create hashmap for 'words'
- * - Slice the body of texts into words and update words hashmap
  * - Create fields for linking to other hashmaps
  * - Create logic to link words and texts
  * - Create logic to navigate words and text
@@ -199,8 +199,6 @@ let new_text = Text {
     comments: "Comments here".to_string(),
     //In future put in tags, links, hashmap links, and flags fields
 };
-
-println!("Current texts:\n{:#?}", updated_texts);
 
 let ron_string = to_string(&updated_texts)?;
     fs::write("languages/italian/texts.ron", ron_string)?;
