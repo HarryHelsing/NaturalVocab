@@ -1,3 +1,5 @@
+mod println;
+
 use serde::{Serialize, Deserialize};
 use ron::ser::*;
 use ron::de::*;
@@ -5,6 +7,7 @@ use std::fs;
 use std::io;
 use std::collections::HashMap;
 use regex::Regex;
+use crate::println::*;
 
 #[derive(PartialEq)]
     enum ModeType {
@@ -69,7 +72,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     print_mode_select();
         written_input = get_input();
         let written_input: i32 = written_input.trim().parse().expect("Please type a number");
-        //program crashes if number is not typed
+        //program crashes if number is not typed: add error handling
         
         //Need to:
         //Create if statements for each enum type
@@ -82,12 +85,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         };
     if mode_type == ModeType::Exit {break};
     if mode_type == ModeType::Add {mode_add_text()};
+    if mode_type == ModeType::Review {mode_review_words()};
+    if mode_type == ModeType::Overview {mode_overview()};
     }
     serialise_word_hash(&word_hashmap);//add string, word?
     Ok(())
     }
 
-fn mode_add_text() {}
+fn mode_add_text() {}//temporary example
 
 fn get_input() -> String {
 let mut input = String::new();
@@ -138,76 +143,7 @@ let ron_string = to_string(word_hash)?;
 }
 
 
-// Print functions
-fn print_welcome_1() {
-    println!("
 
-=================================
-    Welcome to NaturalVocab
-=================================
-
-This app is designed to help you
-learn vocabulary in any language
-in a natural and interesting way.
-
-You upload content which you find
-interesting and engaging, so that
-you learn the words in context,
-in a way that you personally
-connect with.
-
-- Continue (press ENTER to continue)");
-
-}
-
-fn print_welcome_2() {
-    println!("
-More than this, though the app
-primarily tracks the amount of
-words you've become comfortable
-with, it is deisgned in such a
-way that over time the grammar
-of the language is naturally
-acquired.
-
-The app is made to be structured,
-while being flexible. It
-tracks your progress in a gentle,
-self defined way.
-
-- Continue (press ENTER to continue)");
-}
-
-fn print_lang_select() {
-        println!("
-
-=================================
-     Language Selection
-=================================
-
-... Later add proper alternative language support
-");
-}
-
-fn print_mode_select() {
-        println!("
-
-=================================
-        Mode Selection
-=================================
-Select a Mode
-Type 1 then press enter to begin
-Text Upload and Review Mode
-
-Type 2 then press enter to begin
-Word Review and Study Mode
-
-Type 3 then press enter to begin
-Overview Progress Mode
-
-Type 4 then press enter to Exit\n\n
-");
-}
 /*
 fn mode_add_text (word_hashmap:&mut HashMap::<String, Word>) {
 //Temporary test value for the logic
