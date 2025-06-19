@@ -77,3 +77,11 @@ pub fn print_continue() {
 
     ");
 }
+
+pub fn print_adding_text() {
+
+    println!("
+    Type text then press enter to upload
+
+    ");
+}
