@@ -56,16 +56,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut word_hashmap = HashMap::<String, Word>::new(); 
         word_hashmap = deserialise_word_hash();
 
-    //Temporary test value for the logic
-    let text = "It's Italian time!";
     //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
-        regex_word_finder(&re, &mut word_hashmap, text);
 
-        //Temporary checker for hashmap
-    for key in word_hashmap.keys() {
-        println!("Key: {}", key);
-        }
 
     let mut mode_type = ModeType::Unknown;
         loop {    
@@ -74,8 +67,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let written_output: i32 = written_input.trim().parse().expect("Please type a number");
         //program crashes if number is not typed: add error handling
         
-        //Need to:
-        //Create if statements for each enum type
         mode_type = match written_output  {
              1 => ModeType::Add,
              2 => ModeType::Review,
@@ -146,10 +137,8 @@ let ron_string = to_string(word_hash)?;
 
 fn mode_add_text (re: &Regex,
         word_hashmap:&mut HashMap<String, Word>) {
-//Temporary test value for the logic
-    let text = "Pringles?";
-    //put this in it's own function to call when updating text?
-    let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
+    //put input for text
+    let text = "catfood?";
         regex_word_finder(&re, word_hashmap, text);
 }
 
