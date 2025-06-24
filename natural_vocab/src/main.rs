@@ -1,4 +1,7 @@
 mod println;
+mod mode_add_text;
+use crate::mode_add_text::mode_add_text;
+//create modules for different app modes
 
 use serde::{Serialize, Deserialize};
 use ron::ser::*;
@@ -6,6 +9,7 @@ use ron::de::*;
 use std::fs;
 use std::io;
 use std::collections::HashMap;
+use indexmap::IndexMap;
 use regex::Regex;
 use crate::println::*;
 
@@ -38,12 +42,18 @@ use crate::println::*;
 #[derive(Serialize, Deserialize, Debug)]
     struct Text {
         title: String,
+        chunks: Vec<Chunk>,
+    }
+
+#[derive(Serialize, Deserialize, Debug)]
+    struct Chunk {
         body: String,
         comments: String,
     }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
 
+    //APP INTRODUCTION
     let mut written_input = String::new();
     print_welcome_1();
         written_input = get_input();
@@ -59,7 +69,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
 
-
+    //SELECT A MODE
     let mut mode_type = ModeType::Unknown;
         loop {    
     print_mode_select();
@@ -135,18 +145,6 @@ let ron_string = to_string(word_hash)?;
 
 
 
-fn mode_add_text (re: &Regex,
-        word_hashmap:&mut HashMap<String, Word>) {
- 
-    let mut written_input = String::new();
-    print_adding_text();
-        written_input = get_input();
-
-    //put input for text
-    let text = &written_input;
-        regex_word_finder(&re, word_hashmap, text);
-}
-
 fn mode_review_words (
 word_hashmap:&mut HashMap<String, Word>
     ) {
@@ -162,8 +160,7 @@ fn mode_overview () {
 
 }
 /* to-do
- * - Create input logic to take in new text
- * - Reformat into hashmap
+ * - Create hashmap for full texts
  * - Create fields for linking to other hashmaps
  * - Create logic to link words and texts
  * - Create logic to navigate words and text
