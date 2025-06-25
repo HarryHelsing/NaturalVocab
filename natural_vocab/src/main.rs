@@ -2,6 +2,7 @@ mod println;
 mod mode_add_text;
 use crate::mode_add_text::mode_add_text;
 //create modules for different app modes
+//Also! for de/serialisation
 
 use serde::{Serialize, Deserialize};
 use ron::ser::*;
@@ -48,7 +49,6 @@ use crate::println::*;
 #[derive(Serialize, Deserialize, Debug)]
     struct Chunk {
         body: String,
-        comments: String,
     }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -64,10 +64,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         //Loading in word list from file
     let mut word_hashmap = HashMap::<String, Word>::new(); 
+    let mut text_indexmap: IndexMap::<usize, Text> = IndexMap::new();
         word_hashmap = deserialise_word_hash();
 
     //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
+    let re_chunk = Regex::new(r"#\!").unwrap();
 
     //SELECT A MODE
     let mut mode_type = ModeType::Unknown;
@@ -85,7 +87,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
              _ => ModeType::Unknown,
         };
     if mode_type == ModeType::Exit {break};
-    if mode_type == ModeType::Add {mode_add_text(&re, &mut word_hashmap)};
+    if mode_type == ModeType::Add {mode_add_text(&re, &re_chunk, &mut text_indexmap, &mut word_hashmap)};
     if mode_type == ModeType::Review {mode_review_words(&mut word_hashmap)};
     if mode_type == ModeType::Overview {mode_overview()};
         print_continue();
@@ -101,22 +103,6 @@ let mut input = String::new();
         .read_line(&mut input)
         .expect("Failed to read line");
     input.trim().to_string()
-}
-
-fn regex_word_finder(
-    re: &Regex,
-    word_hashmap: &mut HashMap<String, Word>,
-    text: &str,
-
-){
-    for cap in re.captures_iter(text) {
-        let captured_word = &cap[1].to_lowercase();
-        word_hashmap.entry(captured_word.to_string())
-            .or_insert(Word {//fill in extra fields
-                word: captured_word.to_string(),
-            });
-    }
-
 }
 
 fn deserialise_word_hash()-> HashMap::<String, Word> {

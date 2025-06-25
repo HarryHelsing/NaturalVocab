@@ -1,0 +1,9 @@
+Thought 1: What even is a chunk?#! 
+Thought 2: Philosophically, aren’t we all just one long text split by invisible delimiters?#! 
+Thought 3: Okay, now I’m just hungry.#! 
+Thought 4: Do not eat the delimiters.#! 
+Thought 5: This message was sponsored by the Rust Foundation for Chunk Awareness.#! 
+Thought 6: Please stand by for serialization.#! 
+Thought 7: Please sit down again.#! 
+End of file. Or is it?#! 
+Yes. Yes it is.#!
