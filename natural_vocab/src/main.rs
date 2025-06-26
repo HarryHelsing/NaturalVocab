@@ -66,6 +66,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut word_hashmap = HashMap::<String, Word>::new();
     let mut text_indexmap: IndexMap<usize, Text> = IndexMap::new();
     word_hashmap = deserialise_word_hash();
+    text_indexmap = deserialise_text_index();
 
     //put this in it's own function to call when updating text?
     let re = Regex::new(r"(\p{L}+(?:'\p{L})*)").unwrap();
@@ -101,7 +102,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         print_continue();
         written_input = get_input();
     }
-    serialise_word_hash(&word_hashmap); //add string, word?
+    serialise_word_hash(&word_hashmap);
+    serialise_text_index(&text_indexmap);
     Ok(())
 }
 
@@ -122,7 +124,6 @@ fn mode_review_words(word_hashmap: &mut HashMap<String, Word>) {
 
 fn mode_overview() {}
 /* to-do
- * - Create hashmap for full texts
  * - Create fields for linking to other hashmaps
  * - Create logic to link words and texts
  * - Create logic to navigate words and text
@@ -134,9 +135,3 @@ fn mode_overview() {}
  * - Adding flags
  * - Adding date uploaded and logic for adding date
  */
-
-/* code for later reference
- * use hashmaps (not hashsets) and methods .entry().or_insert(x);
- * .entry() to see if there is a preexisting key and .or_insert()
- * to place new values if there are no previous ones set
-*/
