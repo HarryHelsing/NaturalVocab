@@ -1,6 +1,7 @@
 // Print functions
 pub fn print_welcome_1() {
-    println!("
+    println!(
+        "
 
 =================================
     Welcome to NaturalVocab
@@ -16,12 +17,13 @@ you learn the words in context,
 in a way that you personally
 connect with.
 
-- Continue (press ENTER to continue)");
-
+- Continue (press ENTER to continue)"
+    );
 }
 
 pub fn print_welcome_2() {
-    println!("
+    println!(
+        "
 More than this, though the app
 primarily tracks the amount of
 words you've become comfortable
@@ -35,22 +37,26 @@ while being flexible. It
 tracks your progress in a gentle,
 self defined way.
 
-- Continue (press ENTER to continue)");
+- Continue (press ENTER to continue)"
+    );
 }
 
 pub fn print_lang_select() {
-        println!("
+    println!(
+        "
 
 =================================
      Language Selection
 =================================
 
 ... Later add proper alternative language support
-");
+"
+    );
 }
 
 pub fn print_mode_select() {
-        println!("
+    println!(
+        "
 
 =================================
         Mode Selection
@@ -66,22 +72,25 @@ Type 3 then press enter to begin
 Overview Progress Mode
 
 Type 4 then press enter to Exit\n\n
-");
+"
+    );
 }
 
 pub fn print_continue() {
-
-    println!("
+    println!(
+        "
 
     Press enter to continue
 
-    ");
+    "
+    );
 }
 
 pub fn print_adding_text() {
-
-    println!("
+    println!(
+        "
     Type text then press enter to upload
 
-    ");
+    "
+    );
 }
