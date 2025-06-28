@@ -35,11 +35,13 @@ enum FamiliarityLevel {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Word {
-    word: String,
-    //comments: String,
-    //familiarity: FamiliarityLevel,
-    //text_links: Vec<i32>,
-} //Links to texts: Vec of hashs?, familiarity level: int?, comments: string
+    // <- of this  <¬
+    word: String, //data duplication?
+                  //comments: String,
+                  //familiarity: FamiliarityLevel,
+                  //text_links: Vec<i32>,
+                  //word_links: Vec<i32>,
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Text {

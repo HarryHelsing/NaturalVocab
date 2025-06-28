@@ -1,6 +1,13 @@
 use crate::*;
 use regex::Regex;
 
+#[derive(PartialEq)]
+enum AddType {
+    FromFile,
+    Written,
+    Unknown,
+}
+
 pub fn mode_add_text(
     re: &Regex,
     re_chunk: &Regex,
@@ -10,20 +17,38 @@ pub fn mode_add_text(
     let mut written_input_title = String::new();
     let mut written_input = String::new();
     print_adding_text();
-    written_input_title = get_input();
-    let title_text = &written_input_title;
-    written_input = get_input();
-    let text = &written_input;
 
-    //put input for text
-    regex_word_finder(&re, word_hashmap, text);
-    regex_chunk_finder(&re_chunk, text_indexmap, text, title_text);
-    //call function to check the chunks are registering
+    //Add println!
+    let mut text_add_type = AddType::Unknown;
+    written_input = get_input();
+    let written_output: i32 = written_input.trim().parse().expect("Please type a number");
+
+    text_add_type = match written_output {
+        1 => AddType::FromFile,
+        2 => AddType::Written,
+        _ => AddType::Unknown,
+    };
+    if text_add_type == AddType::Unknown {
+        return;
+    };
+    //Probably just find way to read all files into
+    //memory from selected folder
+    //for each file in x file path
+    //-bind to values, regex
+    //Additional: Check if files already are included
+    if text_add_type == AddType::FromFile {}
+
+    if text_add_type == AddType::Written {
+        print_writing_text();
+        written_input_title = get_input();
+        let title_text = &written_input_title;
+        written_input = get_input();
+        let text = &written_input;
+        regex_word_finder(&re, word_hashmap, text);
+        regex_chunk_finder(&re_chunk, text_indexmap, text, title_text);
+    }
 }
 
-//trim whitespace
-//map to indexmap
-//delete irrelivant code, eg to lowercase
 fn regex_chunk_finder(
     re_chunk: &Regex,
     text_indexmap: &mut IndexMap<usize, Text>,
