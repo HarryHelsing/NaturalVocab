@@ -36,6 +36,7 @@ pub fn mode_add_text(
     //for each file in x file path
     //-bind to values, regex
     //Additional: Check if files already are included
+    //Note: Need to figure out how to handle the result type correctly
     if text_add_type == AddType::FromFile {}
 
     if text_add_type == AddType::Written {

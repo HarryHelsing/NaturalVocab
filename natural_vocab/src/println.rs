@@ -11,7 +11,7 @@ pub fn print_welcome_1() {
     learn vocabulary in any language
     in a natural and interesting way.
     
-    You upload content which you find
+    Upload content that you find
     interesting and engaging, so that
     you learn the words in context,
     in a way that you personally
@@ -24,11 +24,10 @@ pub fn print_welcome_1() {
 pub fn print_welcome_2() {
     println!(
         "
-    More than this, though the app
-    primarily tracks the amount of
-    words you've become comfortable
-    with, it is deisgned in such a
-    way that over time the grammar
+    The app primarily tracks the
+    amount of words you've become
+    comfortable with, it is deisgned
+    so that over time the grammar
     of the language is naturally
     acquired.
     
